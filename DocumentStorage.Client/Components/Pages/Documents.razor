@@ -1,0 +1,179 @@
+@page "/documents"
+@using DocumentStorage.Client.Models
+@using DocumentStorage.Client.Services
+@using DocumentStorage.Client.Components.Documents
+@rendermode InteractiveServer
+
+<PageTitle>DocumentList - Storage System</PageTitle>
+
+<div class="min-h-screen bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-900">Document Storage</h1>
+            <p class="mt-2 text-sm text-gray-600">Upload and manage your documents securely</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 bg-blue-100 rounded-lg p-3">
+                        <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Total DocumentList</p>
+                        <p class="text-2xl font-semibold text-gray-900">@(DocumentList?.Count ?? 0)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 bg-green-100 rounded-lg p-3">
+                        <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M5 13l4 4L19 7"/>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Storage Used</p>
+                        <p class="text-2xl font-semibold text-gray-900">@GetTotalSize()</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 bg-purple-100 rounded-lg p-3">
+                        <svg class="h-6 w-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Last Upload</p>
+                        <p class="text-lg font-semibold text-gray-900">@GetLastUploadTime()</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upload Section -->
+        <div class="bg-white rounded-lg shadow mb-8">
+            <div class="p-6">
+                <h2 class="text-lg font-medium text-gray-900 mb-4">Upload New Document</h2>
+                <FileUpload OnFileUploaded="HandleFileUploaded" />
+            </div>
+        </div>
+
+        <!-- DocumentList List -->
+        <div class="bg-white rounded-lg shadow">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-lg font-medium text-gray-900">Your DocumentList</h2>
+                    @if (DocumentList?.Count > 0)
+                    {
+                        <button @onclick="RefreshDocumentList"
+                                class="inline-flex items-center px-3 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                            <svg class="h-4 w-4 mr-1 @(IsRefreshing ? "animate-spin" : "")" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                            </svg>
+                            Refresh
+                        </button>
+                    }
+                </div>
+
+                <DocumentList DocumentList="DocumentList" OnDocumentDeleted="HandleDocumentDeleted" />
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Inject] private DocumentService DocumentService { get; set; } = default!;
+
+    private List<DocumentDto>? DocumentList;
+    private bool IsRefreshing = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadDocumentList();
+    }
+
+    private async Task LoadDocumentList()
+    {
+        DocumentList = await DocumentService.GetDocumentsAsync();
+        StateHasChanged();
+    }
+
+    private async Task RefreshDocumentList()
+    {
+        IsRefreshing = true;
+        await LoadDocumentList();
+        await Task.Delay(500); // Small delay for visual feedback
+        IsRefreshing = false;
+    }
+
+    private async Task HandleFileUploaded(DocumentDto document)
+    {
+        await LoadDocumentList();
+    }
+
+    private async Task HandleDocumentDeleted(DocumentDto document)
+    {
+        if (DocumentList != null)
+        {
+            DocumentList.Remove(DocumentList.First(d => d.Id == document.Id));
+            StateHasChanged();
+        }
+    }
+
+    private string GetTotalSize()
+    {
+        if (DocumentList == null || DocumentList.Count == 0)
+            return "0 B";
+
+        var totalBytes = DocumentList.Sum(d => d.FileSize ?? 0);
+        return FormatFileSize(totalBytes);
+    }
+
+    private string GetLastUploadTime()
+    {
+        if (DocumentList == null || DocumentList.Count == 0)
+            return "Never";
+
+        var lastUpload = DocumentList.OrderByDescending(d => d.CreatedAt).First();
+        var timeSpan = DateTime.Now - lastUpload.CreatedAt;
+
+        if (timeSpan.TotalMinutes < 1)
+            return "Just now";
+        if (timeSpan.TotalHours < 1)
+            return $"{(int)timeSpan.TotalMinutes} min ago";
+        if (timeSpan.TotalDays < 1)
+            return $"{(int)timeSpan.TotalHours} hours ago";
+        if (timeSpan.TotalDays < 30)
+            return $"{(int)timeSpan.TotalDays} days ago";
+
+        return lastUpload.CreatedAt.ToString("MMM dd, yyyy");
+    }
+
+    private string FormatFileSize(long bytes)
+    {
+        string[] sizes = { "B", "KB", "MB", "GB" };
+        int order = 0;
+        double size = bytes;
+
+        while (size >= 1024 && order < sizes.Length - 1)
+        {
+            order++;
+            size /= 1024;
+        }
+
+        return $"{size:0.##} {sizes[order]}";
+    }
+}

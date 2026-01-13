@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocumentStorage.Client", "DocumentStorage.Client\DocumentStorage.Client.csproj", "{DB6847D8-5083-44A1-8D13-5F0E7D0B0FC0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocumentStorage.Server", "DocumentStorage.Server\DocumentStorage.Server.csproj", "{46B89206-0F55-430C-A839-4862C3CD11CE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DocumentStorage.BO", "DocumentStorage.BO", "{2EF4BD3A-B19A-4393-82D4-26CF1EB63677}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocumentStorage.BO", "DocumentStorage.BO\DocumentStorage.BO.csproj", "{078A4353-B790-4B04-9242-2B1511BA21C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocumentStorage.Data", "DocumentStorage.Data\DocumentStorage.Data.csproj", "{754690B8-00DA-4192-94A5-53C33F5F856E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DB6847D8-5083-44A1-8D13-5F0E7D0B0FC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB6847D8-5083-44A1-8D13-5F0E7D0B0FC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB6847D8-5083-44A1-8D13-5F0E7D0B0FC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB6847D8-5083-44A1-8D13-5F0E7D0B0FC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46B89206-0F55-430C-A839-4862C3CD11CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46B89206-0F55-430C-A839-4862C3CD11CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46B89206-0F55-430C-A839-4862C3CD11CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46B89206-0F55-430C-A839-4862C3CD11CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{078A4353-B790-4B04-9242-2B1511BA21C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{078A4353-B790-4B04-9242-2B1511BA21C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{078A4353-B790-4B04-9242-2B1511BA21C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{078A4353-B790-4B04-9242-2B1511BA21C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{754690B8-00DA-4192-94A5-53C33F5F856E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{754690B8-00DA-4192-94A5-53C33F5F856E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{754690B8-00DA-4192-94A5-53C33F5F856E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{754690B8-00DA-4192-94A5-53C33F5F856E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{078A4353-B790-4B04-9242-2B1511BA21C5} = {2EF4BD3A-B19A-4393-82D4-26CF1EB63677}
+	EndGlobalSection
+EndGlobal

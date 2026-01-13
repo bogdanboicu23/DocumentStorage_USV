@@ -1,0 +1,17 @@
+{
+  "name": "documentstorage.client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build-css": "tailwindcss -i ./Styles/app.css -o ./wwwroot/css/app.css --watch",
+    "build-css-prod": "tailwindcss -i ./Styles/app.css -o ./wwwroot/css/app.css --minify"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "tailwindcss": "^4.1.18"
+  }
+}
