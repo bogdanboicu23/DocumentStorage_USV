@@ -1,0 +1,359 @@
+@page "/plans"
+@using DocumentStorage.Client.Services.Auth
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.Net.Http.Json
+@inject HttpClient Http
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthStateProvider
+@inject ILogger<Plans> Logger
+@rendermode InteractiveServer
+
+<PageTitle>Pricing Plans - Document Storage</PageTitle>
+
+<div class="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
+    <!-- Header -->
+    <div class="container mx-auto px-4 py-12">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+            <h1 class="text-5xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-4">
+                Choose Your Perfect Plan
+            </h1>
+            <p class="text-xl text-gray-600">
+                Secure cloud storage that scales with your needs. Upgrade or downgrade anytime.
+            </p>
+        </div>
+
+        <!-- Usage Stats (for logged-in users) -->
+        <AuthorizeView>
+            <Authorized>
+                @if (currentUsage != null)
+                {
+                    <div class="max-w-4xl mx-auto mb-8">
+                        <div class="bg-white rounded-xl shadow-lg p-6">
+                            <h3 class="text-lg font-semibold mb-4">Current Usage</h3>
+                            <div class="space-y-3">
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span>Storage Used</span>
+                                        <span class="font-medium">@currentUsage.FormattedUsedStorage of @currentUsage.FormattedMaxStorage</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                        <div class="@(currentUsage.StoragePercentage > 90 ? "bg-red-500" : currentUsage.StoragePercentage > 75 ? "bg-yellow-500" : "bg-blue-600") h-2 rounded-full transition-all duration-300"
+                                             style="width: @Math.Min(currentUsage.StoragePercentage, 100)%"></div>
+                                    </div>
+                                </div>
+                                @if (currentUsage.MaxDocuments > 0)
+                                {
+                                    <div>
+                                        <div class="flex justify-between text-sm mb-1">
+                                            <span>Documents</span>
+                                            <span class="font-medium">@currentUsage.UsedDocuments of @currentUsage.MaxDocuments</span>
+                                        </div>
+                                        <div class="w-full bg-gray-200 rounded-full h-2">
+                                            <div class="@(currentUsage.IsDocumentLimitReached ? "bg-red-500" : "bg-blue-600") h-2 rounded-full transition-all duration-300"
+                                                 style="width: @Math.Min((double)currentUsage.UsedDocuments / currentUsage.MaxDocuments * 100, 100)%"></div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </Authorized>
+        </AuthorizeView>
+
+        <!-- Plans Grid -->
+        @if (plans != null)
+        {
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                @foreach (var plan in plans.OrderBy(p => p.SortOrder))
+                {
+                    <div class="@(plan.IsPopular ? "transform scale-105" : "") relative">
+                        @if (plan.IsPopular)
+                        {
+                            <div class="absolute -top-5 left-1/2 transform -translate-x-1/2">
+                                <span class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                                    MOST POPULAR
+                                </span>
+                            </div>
+                        }
+
+                        <div class="bg-white rounded-2xl shadow-xl @(plan.IsPopular ? "ring-2 ring-purple-600" : "") p-8 h-full flex flex-col">
+                            <!-- Plan Header -->
+                            <div class="text-center mb-6">
+                                <h3 class="text-2xl font-bold text-gray-900 mb-2">@plan.Name</h3>
+                                <p class="text-gray-600">@plan.Description</p>
+                            </div>
+
+                            <!-- Price -->
+                            <div class="text-center mb-8">
+                                <div class="flex items-baseline justify-center">
+                                    <span class="text-5xl font-bold text-gray-900">@((int)plan.Price)@plan.Currency</span>
+                                    <span class="text-gray-600 ml-2">/@plan.BillingCycle</span>
+                                </div>
+                            </div>
+
+                            <!-- Storage Info -->
+                            <div class="bg-gradient-to-r from-purple-100 to-blue-100 rounded-lg p-4 mb-6">
+                                <div class="text-center">
+                                    <div class="text-3xl font-bold text-purple-600">@plan.FormattedStorage</div>
+                                    <div class="text-sm text-gray-600">Storage Space</div>
+                                </div>
+                            </div>
+
+                            <!-- Features -->
+                            <ul class="space-y-3 mb-8 flex-grow">
+                                @foreach (var feature in plan.Features)
+                                {
+                                    <li class="flex items-start">
+                                        <svg class="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                        <span class="text-gray-700">@feature</span>
+                                    </li>
+                                }
+                            </ul>
+
+                            <!-- Action Button -->
+                            <AuthorizeView>
+                                <Authorized>
+                                    @if (currentPlan != null && currentPlan.Id == plan.Id)
+                                    {
+                                        <button class="w-full py-3 px-4 bg-gray-100 text-gray-500 font-semibold rounded-lg cursor-not-allowed" disabled>
+                                            Current Plan
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button @onclick="() => UpgradeToPlan(plan)"
+                                                class="w-full py-3 px-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold rounded-lg
+                                                       hover:from-purple-700 hover:to-blue-700 transform transition-all duration-200 hover:scale-105"
+                                                disabled="@isUpgrading">
+                                            @if (isUpgrading && selectedPlanId == plan.Id)
+                                            {
+                                                <span class="flex items-center justify-center">
+                                                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                                                    </svg>
+                                                    Upgrading...
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span>@(plan.Price == 0 ? "Select Plan" : "Upgrade Now")</span>
+                                            }
+                                        </button>
+                                    }
+                                </Authorized>
+                                <NotAuthorized>
+                                    <button @onclick="@(() => Navigation.NavigateTo("/login"))"
+                                            class="w-full py-3 px-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold rounded-lg
+                                                   hover:from-purple-700 hover:to-blue-700 transform transition-all duration-200 hover:scale-105">
+                                        Sign Up
+                                    </button>
+                                </NotAuthorized>
+                            </AuthorizeView>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="flex justify-center">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+            </div>
+        }
+
+        <!-- Success/Error Messages -->
+        @if (!string.IsNullOrEmpty(message))
+        {
+            <div class="fixed bottom-4 right-4 z-50">
+                <div class="@(isError ? "bg-red-500" : "bg-green-500") text-white px-6 py-3 rounded-lg shadow-lg flex items-center">
+                    @if (!isError)
+                    {
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    }
+                    else
+                    {
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    }
+                    @message
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private List<PlanWithLimitsDto>? plans;
+    private PlanWithLimitsDto? currentPlan;
+    private UsageDto? currentUsage;
+    private bool isUpgrading = false;
+    private Guid? selectedPlanId;
+    private string message = "";
+    private bool isError = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadPlans();
+        await LoadCurrentPlanAndUsage();
+    }
+
+    private async Task LoadPlans()
+    {
+        try
+        {
+            var httpClient = CreateHttpClient();
+            plans = await httpClient.GetFromJsonAsync<List<PlanWithLimitsDto>>("https://localhost:7150/api/plans");
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Failed to load plans");
+            plans = new List<PlanWithLimitsDto>();
+        }
+    }
+
+    private async Task LoadCurrentPlanAndUsage()
+    {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        if (authState.User.Identity?.IsAuthenticated == true)
+        {
+            try
+            {
+                var httpClient = CreateAuthorizedHttpClient();
+                currentPlan = await httpClient.GetFromJsonAsync<PlanWithLimitsDto>("https://localhost:7150/api/plans/current");
+                currentUsage = await httpClient.GetFromJsonAsync<UsageDto>("https://localhost:7150/api/plans/usage");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Failed to load current plan or usage");
+            }
+        }
+    }
+
+    private async Task UpgradeToPlan(PlanWithLimitsDto plan)
+    {
+        isUpgrading = true;
+        selectedPlanId = plan.Id;
+        message = "";
+
+        try
+        {
+            var httpClient = CreateAuthorizedHttpClient();
+            // API expects plan ID in the URL path, not the body
+            var response = await httpClient.PostAsync($"https://localhost:7150/api/plans/upgrade/{plan.Id}", null);
+
+            if (response.IsSuccessStatusCode)
+            {
+                message = $"Successfully upgraded to {plan.Name} plan!";
+                isError = false;
+
+                // Small delay to ensure backend has processed the change
+                await Task.Delay(500);
+
+                // Clear current data to force fresh reload
+                currentPlan = null;
+                currentUsage = null;
+                StateHasChanged();
+
+                // Reload both plans and current usage
+                await LoadPlans();
+                await LoadCurrentPlanAndUsage();
+
+                // Force another UI update
+                StateHasChanged();
+
+                // Clear message after 3 seconds
+                _ = Task.Delay(3000).ContinueWith(_ =>
+                {
+                    InvokeAsync(() =>
+                    {
+                        message = "";
+                        StateHasChanged();
+                    });
+                });
+            }
+            else
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                message = $"Failed to upgrade: {error}";
+                isError = true;
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Failed to upgrade plan");
+            message = "An error occurred. Please try again.";
+            isError = true;
+        }
+        finally
+        {
+            isUpgrading = false;
+            selectedPlanId = null;
+        }
+    }
+
+    private HttpClient CreateHttpClient()
+    {
+        var httpClient = new HttpClient();
+        if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+        {
+            var handler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
+            };
+            httpClient = new HttpClient(handler);
+        }
+        return httpClient;
+    }
+
+    private HttpClient CreateAuthorizedHttpClient()
+    {
+        var httpClient = CreateHttpClient();
+        var authStateProvider = (ServerAuthStateProvider)AuthStateProvider;
+        var token = authStateProvider.GetToken();
+        if (!string.IsNullOrEmpty(token))
+        {
+            httpClient.DefaultRequestHeaders.Authorization =
+                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+        }
+        return httpClient;
+    }
+
+    public class PlanWithLimitsDto
+    {
+        public Guid Id { get; set; }
+        public string Code { get; set; } = null!;
+        public string Name { get; set; } = null!;
+        public string? Description { get; set; }
+        public decimal Price { get; set; }
+        public string Currency { get; set; } = null!;
+        public string BillingCycle { get; set; } = null!;
+        public bool IsActive { get; set; }
+        public int SortOrder { get; set; }
+        public long StorageLimitBytes { get; set; }
+        public int? DocumentLimit { get; set; }
+        public List<string> Features { get; set; } = new();
+        public string FormattedStorage { get; set; } = "";
+        public string FormattedPrice { get; set; } = "";
+        public bool IsPopular { get; set; }
+    }
+
+    public class UsageDto
+    {
+        public long UsedStorageBytes { get; set; }
+        public long MaxStorageBytes { get; set; }
+        public int UsedDocuments { get; set; }
+        public int MaxDocuments { get; set; }
+        public double StoragePercentage { get; set; }
+        public string FormattedUsedStorage { get; set; } = "";
+        public string FormattedMaxStorage { get; set; } = "";
+        public bool IsStorageLimitReached { get; set; }
+        public bool IsDocumentLimitReached { get; set; }
+    }
+}

@@ -16,9 +16,6 @@ public partial class AccountUser
     public Guid UserId { get; set; }
 
     [StringLength(50)]
-    public string EmailAddress { get; set; } = null!;
-    
-    [StringLength(50)]
     public string Role { get; set; } = null!;
 
     [ForeignKey("AccountId")]

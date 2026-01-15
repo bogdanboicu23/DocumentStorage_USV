@@ -9,5 +9,8 @@ namespace DocumentStorage.Data.Repositories.Interfaces
     {
         Task<IEnumerable<Account>> GetAllAccountsAsync();
         Task<Account> GetAccountByIdAsync(Guid id);
+        Task<Account?> GetAccountByUserIdAsync(Guid userId);
+        Task<Account> AddAsync(Account account);
+        Task AddAccountUserAsync(AccountUser accountUser);
     }
 }

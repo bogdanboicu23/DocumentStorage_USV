@@ -1,0 +1,60 @@
+@model DocumentStorage.MVC.Models.Subscription.CreateSubscriptionModel
+
+@{
+    ViewData["Title"] = "Create Subscription";
+}
+
+<h1>Create New Subscription</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="AccountId" class="form-label"></label>
+                <select asp-for="AccountId" asp-items="Model.Accounts" class="form-control">
+                    <option value="">-- Select Account --</option>
+                </select>
+                <span asp-validation-for="AccountId" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="PlanId" class="form-label"></label>
+                <select asp-for="PlanId" asp-items="Model.Plans" class="form-control">
+                    <option value="">-- Select Plan --</option>
+                </select>
+                <span asp-validation-for="PlanId" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Status" class="form-label"></label>
+                <select asp-for="Status" asp-items="Model.Statuses" class="form-control">
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="PeriodStart" class="form-label"></label>
+                <input asp-for="PeriodStart" class="form-control" type="datetime-local" />
+                <span asp-validation-for="PeriodStart" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="PeriodEnd" class="form-label"></label>
+                <input asp-for="PeriodEnd" class="form-control" type="datetime-local" />
+                <span asp-validation-for="PeriodEnd" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Create</button>
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

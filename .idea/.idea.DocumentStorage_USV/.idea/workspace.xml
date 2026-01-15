@@ -13,8 +13,138 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="09af0462-5336-4bce-935f-7db09d70200a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/DocumentStorage.Client/Services/DocumentService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DocumentStorage.Data/DocumentStorageDbContext_CodeFirst.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DocumentStorage.API/DocumentStorage.API.csproj" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DocumentStorage.MVC/DocumentStorage.MVC.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.DocumentStorage_USV/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DocumentStorage_USV/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/Controllers/HomeController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/Controllers/HomeController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/Controllers/PlansController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/Controllers/PlansController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/Controllers/SubscriptionsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/Controllers/SubscriptionsController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/DocumentStorage.BO.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/Models/ErrorViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/Models/ErrorViewModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/Models/Plan/CreatePlanDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/Models/Plan/CreatePlanModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/Models/Plan/PlanDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/Models/Plan/PlanModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/Models/Plan/UpdatePlanDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/Models/Plan/UpdatePlanModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/Models/Subscription/CreateSubscriptionDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/Models/Subscription/CreateSubscriptionModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/Models/Subscription/SubscriptionDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/Models/Subscription/SubscriptionModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/Models/Subscription/UpdateSubscriptionDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/Models/Subscription/UpdateSubscriptionModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/Properties/launchSettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/Views/Home/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/Views/Home/Index.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/Views/Home/Privacy.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/Views/Plans/Create.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/Views/Plans/Create.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/Views/Plans/Delete.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/Views/Plans/Delete.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/Views/Plans/Details.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/Views/Plans/Details.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/Views/Plans/Edit.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/Views/Plans/Edit.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/Views/Plans/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/Views/Plans/Index.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/Views/Shared/Error.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/Views/Shared/Error.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/Views/Shared/_Layout.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/Views/Shared/_Layout.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/Views/Shared/_Layout.cshtml.css" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/Views/Shared/_Layout.cshtml.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/Views/Shared/_ValidationScriptsPartial.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/Views/Shared/_ValidationScriptsPartial.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/Views/Subscriptions/Create.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/Views/Subscriptions/Create.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/Views/Subscriptions/Delete.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/Views/Subscriptions/Delete.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/Views/Subscriptions/Details.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/Views/Subscriptions/Details.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/Views/Subscriptions/Edit.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/Views/Subscriptions/Edit.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/Views/Subscriptions/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/Views/Subscriptions/Index.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/Views/_ViewImports.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/Views/_ViewImports.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/Views/_ViewStart.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/Views/_ViewStart.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.API/appsettings.Development.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/css/site.css" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/css/site.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/favicon.ico" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/js/site.js" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/js/site.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/LICENSE" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.css" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.css" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.min.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.min.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/css/bootstrap.css" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/css/bootstrap.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/css/bootstrap.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/css/bootstrap.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.css" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.min.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.min.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.js" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.min.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.min.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/js/bootstrap.js" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/js/bootstrap.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/js/bootstrap.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/js/bootstrap.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/jquery-validation-unobtrusive/LICENSE.txt" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/jquery-validation-unobtrusive/LICENSE.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/jquery-validation/LICENSE.md" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/jquery-validation/LICENSE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/jquery-validation/dist/additional-methods.js" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/jquery-validation/dist/additional-methods.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/jquery-validation/dist/additional-methods.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/jquery-validation/dist/additional-methods.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/jquery-validation/dist/jquery.validate.js" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/jquery-validation/dist/jquery.validate.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/jquery-validation/dist/jquery.validate.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/jquery-validation/dist/jquery.validate.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/jquery/LICENSE.txt" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/jquery/LICENSE.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/jquery/dist/jquery.js" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/jquery/dist/jquery.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/jquery/dist/jquery.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/jquery/dist/jquery.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.BO/wwwroot/lib/jquery/dist/jquery.min.map" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/wwwroot/lib/jquery/dist/jquery.min.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Client/Components/Documents/DocumentList.razor" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.Client/Components/Documents/DocumentList.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Client/Components/Documents/FileUpload.razor" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.Client/Components/Documents/FileUpload.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Client/Components/Layout/MainLayout.razor" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.Client/Components/Layout/MainLayout.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Client/Components/Layout/NavMenu.razor" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.Client/Components/Layout/NavMenu.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Client/Components/Pages/Documents.razor" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.Client/Components/Pages/Documents.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Client/Components/Pages/Home.razor" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.Client/Components/Pages/Home.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Client/Components/Routes.razor" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.Client/Components/Routes.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Client/DocumentStorage.Client.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.Client/DocumentStorage.Client.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Client/Models/DocumentDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.Client/Models/DocumentDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Client/Models/UploadResult.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.Client/Models/UploadResult.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Client/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.Client/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Client/Services/DocumentService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.Client/Services/DocumentService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Data/Models/AccountUser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.Data/Models/AccountUser.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Data/Repositories/AccountRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.Data/Repositories/AccountRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Data/Repositories/Interfaces/IAccountRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.Data/Repositories/Interfaces/IAccountRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Data/Repositories/SubscriptionRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.Data/Repositories/SubscriptionRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Server/DTOs/Account/AccountDto.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Server/DTOs/Plan/CreatePlanDto.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Server/DTOs/Plan/PlanDto.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Server/DTOs/Plan/UpdatePlanDto.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Server/DTOs/Subscription/CreateSubscriptionDto.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Server/DTOs/Subscription/SubscriptionDto.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Server/DTOs/Subscription/UpdateSubscriptionDto.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Server/DocumentStorage.Server.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Server/DocumentStorage.Server.http" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.API/DocumentStorage.Server.http" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Server/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.API/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Server/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.API/Properties/launchSettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Server/Services/AccountService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.BusinessLayer/Services/AccountService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Server/Services/Interfaces/IAccountService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.BusinessLayer/Services/Interfaces/IAccountService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Server/Services/Interfaces/IPlanService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.BusinessLayer/Services/Interfaces/IPlanService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Server/Services/Interfaces/ISubscriptionService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.BusinessLayer/Services/Interfaces/ISubscriptionService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Server/Services/PlanService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.BusinessLayer/Services/PlanService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Server/Services/SubscriptionService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.BusinessLayer/Services/SubscriptionService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Server/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.MVC/appsettings.Development.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage.Server/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage.API/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentStorage_USV.sln" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentStorage_USV.sln" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,7 +157,26 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;bogdanboicu23&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/bogdanboicu23/DocumentStorage_USV.git&quot;,
+    &quot;accountId&quot;: &quot;2ce6e73a-f929-410b-91a5-9070b478e874&quot;
+  }
+}</component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/DocumentStorage.API/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/DocumentStorage.BusinessLayer/Services/DocumentService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/DocumentStorage.Client/wwwroot/bootstrap/bootstrap.min.css.map" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/DocumentStorage.MVC/Controllers/HomeController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/DocumentStorage.MVC/Controllers/PlansController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/DocumentStorage.MVC/Views/Home/Index.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/bf9021a960b74107a7e141aa06bc9d8a0a53c929178c2fb95b1597be8af8dc/ExceptionDispatchInfo.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
@@ -42,32 +191,14 @@
     <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cshtml" root0="FORCE_HIGHLIGHTING" root1="SKIP_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
-    <setting file="mock://diff.cshtml" root0="FORCE_HIGHLIGHTING" root1="SKIP_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
-    <setting file="mock://diff.cshtml" root0="FORCE_HIGHLIGHTING" root1="SKIP_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
-    <setting file="mock://diff.cshtml" root0="FORCE_HIGHLIGHTING" root1="SKIP_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
-    <setting file="mock://diff.cshtml" root0="FORCE_HIGHLIGHTING" root1="SKIP_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="mock://diff.razor" root0="SKIP_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="mock://diff.razor" root0="SKIP_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
   </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
 }</component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
 }</component>
@@ -76,26 +207,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    ".NET Launch Settings Profile.DocumentStorage.BO: http.executor": "Debug",
-    ".NET Launch Settings Profile.DocumentStorage.Client: http.executor": "Run",
-    ".NET Launch Settings Profile.DocumentStorage.Server: http.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;.NET Launch Settings Profile.DocumentStorage.BO: http.executor&quot;: &quot;Run&quot;,
+    &quot;.NET Launch Settings Profile.DocumentStorage.Client: http.executor&quot;: &quot;Run&quot;,
+    &quot;.NET Launch Settings Profile.DocumentStorage.Server: http.executor&quot;: &quot;Run&quot;,
+    &quot;.NET Launch Settings Profile.DocumentStorage.Server: https.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
-  <component name="RunManager" selected=".NET Launch Settings Profile.DocumentStorage.Client: http">
+}</component>
+  <component name="RunManager" selected=".NET Launch Settings Profile.DocumentStorage.BO: http">
     <configuration name="DocumentStorage.BO: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
-      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/DocumentStorage.BO/DocumentStorage.BO.csproj" />
+      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/DocumentStorage.MVC/DocumentStorage.MVC.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net8.0" />
       <option name="LAUNCH_PROFILE_NAME" value="http" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
@@ -125,7 +257,7 @@
       </method>
     </configuration>
     <configuration name="DocumentStorage.BO: https" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
-      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/DocumentStorage.BO/DocumentStorage.BO.csproj" />
+      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/DocumentStorage.MVC/DocumentStorage.MVC.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net8.0" />
       <option name="LAUNCH_PROFILE_NAME" value="https" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
@@ -215,7 +347,7 @@
       </method>
     </configuration>
     <configuration name="DocumentStorage.Server: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
-      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/DocumentStorage.Server/DocumentStorage.Server.csproj" />
+      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/DocumentStorage.API/DocumentStorage.API.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net8.0" />
       <option name="LAUNCH_PROFILE_NAME" value="http" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
@@ -245,7 +377,7 @@
       </method>
     </configuration>
     <configuration name="DocumentStorage.Server: https" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
-      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/DocumentStorage.Server/DocumentStorage.Server.csproj" />
+      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/DocumentStorage.API/DocumentStorage.API.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net8.0" />
       <option name="LAUNCH_PROFILE_NAME" value="https" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
@@ -284,15 +416,48 @@
       <updated>1768205383383</updated>
       <workItem from="1768205384463" duration="1923000" />
       <workItem from="1768215347877" duration="15176000" />
+      <workItem from="1768301676568" duration="4642000" />
+      <workItem from="1768322823651" duration="3996000" />
+      <workItem from="1768326968100" duration="4298000" />
+      <workItem from="1768421543523" duration="25171000" />
     </task>
+    <task id="LOCAL-00001" summary="Initial Commit - Project creation and MVC implementation">
+      <option name="closed" value="true" />
+      <created>1768301926550</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1768301926550</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="Initial Commit - Project creation and MVC implementation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial Commit - Project creation and MVC implementation" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

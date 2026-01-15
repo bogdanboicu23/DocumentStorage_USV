@@ -2,17 +2,22 @@
 @using DocumentStorage.Client.Models
 @using DocumentStorage.Client.Services
 @using DocumentStorage.Client.Components.Documents
+@using Microsoft.AspNetCore.Components.Authorization
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthStateProvider
 @rendermode InteractiveServer
 
-<PageTitle>DocumentList - Storage System</PageTitle>
+<PageTitle>My Documents - Storage System</PageTitle>
 
-<div class="min-h-screen bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Header -->
-        <div class="mb-8">
-            <h1 class="text-3xl font-bold text-gray-900">Document Storage</h1>
-            <p class="mt-2 text-sm text-gray-600">Upload and manage your documents securely</p>
-        </div>
+<AuthorizeView>
+    <Authorized>
+        <div class="min-h-screen bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <!-- Header -->
+                <div class="mb-8">
+                    <h1 class="text-3xl font-bold text-gray-900">Welcome back, @GetFirstName(context.User.Identity?.Name)!</h1>
+                    <p class="mt-2 text-sm text-gray-600">Manage your documents and files in one secure place</p>
+                </div>
 
         <!-- Stats Cards -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -25,7 +30,7 @@
                         </svg>
                     </div>
                     <div class="ml-4">
-                        <p class="text-sm font-medium text-gray-500">Total DocumentList</p>
+                        <p class="text-sm font-medium text-gray-500">Total Documents</p>
                         <p class="text-2xl font-semibold text-gray-900">@(DocumentList?.Count ?? 0)</p>
                     </div>
                 </div>
@@ -74,7 +79,7 @@
         <div class="bg-white rounded-lg shadow">
             <div class="p-6">
                 <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-lg font-medium text-gray-900">Your DocumentList</h2>
+                    <h2 class="text-lg font-medium text-gray-900">Your Documents</h2>
                     @if (DocumentList?.Count > 0)
                     {
                         <button @onclick="RefreshDocumentList"
@@ -88,11 +93,24 @@
                     }
                 </div>
 
-                <DocumentList DocumentList="DocumentList" OnDocumentDeleted="HandleDocumentDeleted" />
+                <DocumentList Documents="DocumentList" OnDocumentDeleted="HandleDocumentDeleted" />
             </div>
         </div>
-    </div>
-</div>
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <div class="min-h-screen bg-gray-50 flex items-center justify-center">
+            <div class="text-center">
+                <h1 class="text-2xl font-bold text-gray-900 mb-4">Authentication Required</h1>
+                <p class="text-gray-600 mb-8">Please sign in to access your documents.</p>
+                <a href="/login" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold rounded-lg hover:opacity-90 transition-opacity">
+                    Sign In
+                </a>
+            </div>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
 
 @code {
     [Inject] private DocumentService DocumentService { get; set; } = default!;
@@ -102,7 +120,11 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadDocumentList();
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        if (authState.User.Identity?.IsAuthenticated == true)
+        {
+            await LoadDocumentList();
+        }
     }
 
     private async Task LoadDocumentList()
@@ -175,5 +197,22 @@
         }
 
         return $"{size:0.##} {sizes[order]}";
+    }
+
+    private string GetFirstName(string? fullName)
+    {
+        if (string.IsNullOrEmpty(fullName))
+            return "User";
+
+        // If it's an email, extract the part before @
+        if (fullName.Contains('@'))
+        {
+            var emailPart = fullName.Split('@')[0];
+            // Capitalize first letter
+            return char.ToUpper(emailPart[0]) + emailPart.Substring(1);
+        }
+
+        var parts = fullName.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        return parts.Length > 0 ? parts[0] : "User";
     }
 }

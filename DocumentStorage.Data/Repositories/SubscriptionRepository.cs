@@ -82,6 +82,7 @@ namespace DocumentStorage.Data.Repositories
         {
             return await _context.Subscriptions
                 .Include(s => s.Plan)
+                    .ThenInclude(p => p.PlanLimits)
                 .Where(s => s.AccountId == accountId)
                 .OrderByDescending(s => s.PeriodStart)
                 .ToListAsync();

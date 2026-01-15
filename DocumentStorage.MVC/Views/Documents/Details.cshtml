@@ -1,0 +1,45 @@
+@model DocumentStorage.MVC.Models.Document.DocumentModel
+
+@{
+    ViewData["Title"] = "Document Details";
+}
+
+<h1>Document Details</h1>
+
+<div class="card">
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.FileName)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.FileName)</dd>
+
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.FormattedSize)</dt>
+            <dd class="col-sm-9">@Model.FormattedSize</dd>
+
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.ContentType)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.ContentType)</dd>
+
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.AccountName)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.AccountName)</dd>
+
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.CreatedAt)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.CreatedAt)</dd>
+
+            <dt class="col-sm-3">Status</dt>
+            <dd class="col-sm-9">
+                @if (Model.IsDeleted)
+                {
+                    <span class="badge bg-danger">Deleted</span>
+                }
+                else
+                {
+                    <span class="badge bg-success">Active</span>
+                }
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<div class="mt-3">
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>

@@ -1,0 +1,86 @@
+@model IEnumerable<DocumentStorage.MVC.Models.Document.DocumentModel>
+
+@{
+    ViewData["Title"] = $"Documents for {ViewBag.AccountName}";
+}
+
+<h1>Documents for @ViewBag.AccountName</h1>
+
+<div class="row mb-3">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Storage Used</h5>
+                <p class="card-text display-6">@ViewBag.StorageUsed</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Document Count</h5>
+                <p class="card-text display-6">@ViewBag.DocumentCount</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<p>
+    <a asp-action="Create" asp-route-accountId="@ViewBag.AccountId" class="btn btn-primary">Upload New Document</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to All Documents</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.FileName)</th>
+            <th>@Html.DisplayNameFor(model => model.FormattedSize)</th>
+            <th>@Html.DisplayNameFor(model => model.ContentType)</th>
+            <th>@Html.DisplayNameFor(model => model.CreatedAt)</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.FileName)</td>
+                <td>@item.FormattedSize</td>
+                <td>@Html.DisplayFor(modelItem => item.ContentType)</td>
+                <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
+                <td>
+                    @if (item.IsDeleted)
+                    {
+                        <span class="badge bg-danger">Deleted</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-success">Active</span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Details</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

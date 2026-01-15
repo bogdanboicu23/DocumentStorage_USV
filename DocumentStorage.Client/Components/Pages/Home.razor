@@ -1,95 +1,244 @@
-﻿@page "/"
+@page "/"
+@using Microsoft.AspNetCore.Components.Authorization
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthStateProvider
 
 <PageTitle>Home - Document Storage</PageTitle>
 
-<div class="bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <!-- Hero Section -->
-        <div class="text-center">
-            <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
-                <span class="block">Secure Document</span>
-                <span class="block text-blue-600">Storage System</span>
-            </h1>
-            <p class="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-                Store, manage, and access your documents securely from anywhere. Built with modern technology for reliability and speed.
-            </p>
-            <div class="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
-                <div class="rounded-md shadow">
-                    <a href="/documents" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10">
-                        Get Started
+<AuthorizeView>
+    <NotAuthorized>
+        <!-- Hero Section for Non-Authenticated Users -->
+        <div class="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-cyan-50">
+            <!-- Animated Background -->
+            <div class="absolute inset-0 overflow-hidden">
+                <div class="absolute -top-40 -right-40 w-80 h-80 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+                <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+                <div class="absolute top-40 left-40 w-80 h-80 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+            </div>
+
+            <div class="relative z-10">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                    <!-- Hero Section -->
+                    <div class="text-center pt-20">
+                        <h1 class="text-5xl md:text-6xl font-bold tracking-tight text-gray-900 animate-fade-in-up">
+                            <span class="block">Secure Document</span>
+                            <span class="block bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Storage System</span>
+                        </h1>
+                        <p class="mt-6 max-w-2xl mx-auto text-lg md:text-xl text-gray-600 animate-fade-in-up animation-delay-200">
+                            Store, manage, and access your documents securely from anywhere. Built with modern technology for reliability and speed.
+                        </p>
+
+                        <!-- Auth Buttons -->
+                        <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-400">
+                            <a href="/register"
+                               class="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-purple-600 to-blue-600 rounded-full overflow-hidden shadow-lg transform transition-all duration-200 hover:scale-105 hover:shadow-2xl">
+                                <span class="relative z-10 flex items-center">
+                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                                    </svg>
+                                    Get Started Free
+                                </span>
+                                <div class="absolute inset-0 bg-gradient-to-r from-purple-700 to-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+                            </a>
+
+                            <a href="/login"
+                               class="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-gray-700 bg-white rounded-full overflow-hidden shadow-md border-2 border-gray-200 transform transition-all duration-200 hover:scale-105 hover:shadow-xl hover:border-purple-400">
+                                <span class="flex items-center">
+                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                                    </svg>
+                                    Sign In
+                                </span>
+                            </a>
+                        </div>
+
+                        <!-- Quick Links -->
+                        <div class="mt-8 text-sm text-gray-500 animate-fade-in-up animation-delay-600">
+                            No credit card required • Free forever for basic use • 2-minute setup
+                        </div>
+                    </div>
+
+                    <!-- Features Grid -->
+                    <div class="mt-32 grid grid-cols-1 gap-8 md:grid-cols-3">
+                        <div class="text-center group transform transition-all duration-300 hover:-translate-y-2">
+                            <div class="flex justify-center">
+                                <div class="flex items-center justify-center h-16 w-16 rounded-2xl bg-gradient-to-br from-purple-500 to-blue-500 text-white shadow-lg group-hover:shadow-2xl transition-shadow">
+                                    <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <h3 class="mt-6 text-xl font-semibold text-gray-900">Easy Upload</h3>
+                            <p class="mt-3 text-base text-gray-600">
+                                Drag and drop or click to upload. Support for multiple file formats including PDF, Word, Excel, and images.
+                            </p>
+                        </div>
+
+                        <div class="text-center group transform transition-all duration-300 hover:-translate-y-2">
+                            <div class="flex justify-center">
+                                <div class="flex items-center justify-center h-16 w-16 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-500 text-white shadow-lg group-hover:shadow-2xl transition-shadow">
+                                    <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <h3 class="mt-6 text-xl font-semibold text-gray-900">Secure Storage</h3>
+                            <p class="mt-3 text-base text-gray-600">
+                                Your documents are stored securely with enterprise-grade encryption and access controls.
+                            </p>
+                        </div>
+
+                        <div class="text-center group transform transition-all duration-300 hover:-translate-y-2">
+                            <div class="flex justify-center">
+                                <div class="flex items-center justify-center h-16 w-16 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-lg group-hover:shadow-2xl transition-shadow">
+                                    <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <h3 class="mt-6 text-xl font-semibold text-gray-900">Fast Access</h3>
+                            <p class="mt-3 text-base text-gray-600">
+                                Quick download and preview of your documents. Optimized for performance and reliability.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- CTA Section -->
+                    <div class="mt-32 bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl shadow-2xl overflow-hidden">
+                        <div class="px-8 py-16 text-center">
+                            <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+                                Ready to get started?
+                            </h2>
+                            <p class="text-xl text-purple-100 mb-8">
+                                Join thousands of users who trust us with their documents.
+                            </p>
+                            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                                <a href="/register"
+                                   class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-purple-600 bg-white rounded-full shadow-lg transform transition-all duration-200 hover:scale-105 hover:shadow-2xl">
+                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    Create Free Account
+                                </a>
+                                <a href="/login"
+                                   class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-white/20 backdrop-blur border-2 border-white/50 rounded-full shadow-lg transform transition-all duration-200 hover:scale-105 hover:bg-white/30">
+                                    Already have an account? Sign In
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </NotAuthorized>
+
+    <Authorized>
+        <!-- Authenticated User View -->
+        <div class="min-h-screen bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                <div class="text-center">
+                    <h1 class="text-4xl font-bold text-gray-900 mb-4">
+                        Welcome back, @context.User.Identity?.Name!
+                    </h1>
+                    <p class="text-xl text-gray-600 mb-8">
+                        Ready to manage your documents?
+                    </p>
+                    <a href="/documents"
+                       class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-purple-600 to-blue-600 rounded-full shadow-lg transform transition-all duration-200 hover:scale-105 hover:shadow-2xl">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                        </svg>
+                        Go to Documents
                     </a>
                 </div>
-            </div>
-        </div>
 
-        <!-- Features Section -->
-        <div class="mt-24">
-            <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
-                <div class="text-center">
-                    <div class="flex justify-center">
-                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
-                            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
-                            </svg>
-                        </div>
+                <!-- Quick Stats -->
+                <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-white rounded-xl shadow-md p-6 text-center">
+                        <div class="text-3xl font-bold text-purple-600">0</div>
+                        <div class="text-gray-600 mt-2">Total Documents</div>
                     </div>
-                    <h3 class="mt-4 text-lg font-medium text-gray-900">Easy Upload</h3>
-                    <p class="mt-2 text-base text-gray-500">
-                        Drag and drop or click to upload. Support for multiple file formats including PDF, Word, Excel, and images.
-                    </p>
-                </div>
-
-                <div class="text-center">
-                    <div class="flex justify-center">
-                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
-                            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-                            </svg>
-                        </div>
+                    <div class="bg-white rounded-xl shadow-md p-6 text-center">
+                        <div class="text-3xl font-bold text-blue-600">0 MB</div>
+                        <div class="text-gray-600 mt-2">Storage Used</div>
                     </div>
-                    <h3 class="mt-4 text-lg font-medium text-gray-900">Secure Storage</h3>
-                    <p class="mt-2 text-base text-gray-500">
-                        Your documents are stored securely with enterprise-grade encryption and access controls.
-                    </p>
-                </div>
-
-                <div class="text-center">
-                    <div class="flex justify-center">
-                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
-                            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <h3 class="mt-4 text-lg font-medium text-gray-900">Fast Access</h3>
-                    <p class="mt-2 text-base text-gray-500">
-                        Quick download and preview of your documents. Optimized for performance and reliability.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Stats Section -->
-        <div class="mt-24 bg-gray-50 rounded-lg">
-            <div class="max-w-7xl mx-auto py-12 px-4 sm:py-16 sm:px-6 lg:px-8">
-                <div class="grid grid-cols-1 gap-5 sm:grid-cols-3">
-                    <div class="text-center">
-                        <p class="text-4xl font-bold text-blue-600">10MB</p>
-                        <p class="mt-1 text-lg text-gray-500">Max File Size</p>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-4xl font-bold text-blue-600">Multiple</p>
-                        <p class="mt-1 text-lg text-gray-500">File Formats</p>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-4xl font-bold text-blue-600">Secure</p>
-                        <p class="mt-1 text-lg text-gray-500">Storage</p>
+                    <div class="bg-white rounded-xl shadow-md p-6 text-center">
+                        <div class="text-3xl font-bold text-green-600">Active</div>
+                        <div class="text-gray-600 mt-2">Account Status</div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </Authorized>
+</AuthorizeView>
+
+<style>
+    @@keyframes blob {
+        0%, 100% {
+            transform: translate(0px, 0px) scale(1);
+        }
+        33% {
+            transform: translate(30px, -50px) scale(1.1);
+        }
+        66% {
+            transform: translate(-20px, 20px) scale(0.9);
+        }
+    }
+
+    .animate-blob {
+        animation: blob 7s infinite;
+    }
+
+    .animation-delay-2000 {
+        animation-delay: 2s;
+    }
+
+    .animation-delay-4000 {
+        animation-delay: 4s;
+    }
+
+    @@keyframes fade-in-up {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-fade-in-up {
+        animation: fade-in-up 0.6s ease-out forwards;
+    }
+
+    .animation-delay-200 {
+        animation-delay: 0.2s;
+        opacity: 0;
+    }
+
+    .animation-delay-400 {
+        animation-delay: 0.4s;
+        opacity: 0;
+    }
+
+    .animation-delay-600 {
+        animation-delay: 0.6s;
+        opacity: 0;
+    }
+</style>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        if (authState.User.Identity?.IsAuthenticated == true)
+        {
+            // Redirect authenticated users directly to documents
+            Navigation.NavigateTo("/documents");
+        }
+    }
+}

@@ -29,5 +29,26 @@ namespace DocumentStorage.Data.Repositories
         {
             return await _context.Accounts.FindAsync(id);
         }
+
+        public async Task<Account?> GetAccountByUserIdAsync(Guid userId)
+        {
+            return await _context.AccountUsers
+                .Where(au => au.UserId == userId)
+                .Select(au => au.Account)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<Account> AddAsync(Account account)
+        {
+            _context.Accounts.Add(account);
+            await _context.SaveChangesAsync();
+            return account;
+        }
+
+        public async Task AddAccountUserAsync(AccountUser accountUser)
+        {
+            _context.AccountUsers.Add(accountUser);
+            await _context.SaveChangesAsync();
+        }
     }
 }

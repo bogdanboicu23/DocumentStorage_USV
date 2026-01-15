@@ -1,0 +1,318 @@
+@page "/register"
+@using DocumentStorage.Client.Models.Auth
+@using DocumentStorage.Client.Services.Auth
+@using Microsoft.Extensions.Logging
+@inject AuthService AuthService
+@inject NavigationManager Navigation
+@inject ILogger<Register> Logger
+@rendermode InteractiveServer
+
+<PageTitle>Register - Document Storage</PageTitle>
+
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-cyan-600 via-blue-600 to-purple-600 animate-gradient">
+    <div class="absolute inset-0 bg-black opacity-10"></div>
+
+    <!-- Animated background shapes -->
+    <div class="absolute inset-0 overflow-hidden">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+    </div>
+
+    <div class="relative z-10 max-w-md w-full mx-4 animate-fadeInUp">
+        <div class="bg-white/95 backdrop-blur-lg rounded-2xl shadow-2xl p-8 transform transition-all hover:scale-105 duration-300">
+
+            <!-- Logo/Header -->
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-cyan-500 to-purple-500 rounded-full mb-4 animate-pulse-slow">
+                    <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold bg-gradient-to-r from-cyan-600 to-purple-600 bg-clip-text text-transparent">
+                    Create Account
+                </h2>
+                <p class="mt-2 text-gray-600">Join us to start managing your documents</p>
+            </div>
+
+            <!-- Alert Messages -->
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg animate-shake">
+                    @errorMessage
+                </div>
+            }
+
+            <!-- Registration Form -->
+            <EditForm Model="@registerModel" OnValidSubmit="HandleRegister" class="space-y-4">
+                <DataAnnotationsValidator />
+
+                <!-- Name Fields Row -->
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- First Name -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                        <InputText @bind-Value="registerModel.FirstName"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-200"
+                                   placeholder="John" />
+                        <ValidationMessage For="@(() => registerModel.FirstName)" class="text-red-500 text-xs mt-1" />
+                    </div>
+
+                    <!-- Last Name -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                        <InputText @bind-Value="registerModel.LastName"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-200"
+                                   placeholder="Doe" />
+                        <ValidationMessage For="@(() => registerModel.LastName)" class="text-red-500 text-xs mt-1" />
+                    </div>
+                </div>
+
+                <!-- Email Input -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                        <InputText @bind-Value="registerModel.Email"
+                                   class="pl-10 w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-200"
+                                   placeholder="you@example.com" />
+                    </div>
+                    <ValidationMessage For="@(() => registerModel.Email)" class="text-red-500 text-xs mt-1" />
+                </div>
+
+                <!-- Password Input -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                            </svg>
+                        </div>
+                        <InputText @bind-Value="registerModel.Password"
+                                   type="password"
+                                   class="pl-10 w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-200"
+                                   placeholder="Min. 6 characters" />
+                    </div>
+                    <ValidationMessage For="@(() => registerModel.Password)" class="text-red-500 text-xs mt-1" />
+                </div>
+
+                <!-- Confirm Password Input -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                            </svg>
+                        </div>
+                        <InputText @bind-Value="registerModel.ConfirmPassword"
+                                   type="password"
+                                   class="pl-10 w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-200"
+                                   placeholder="Confirm your password" />
+                    </div>
+                    <ValidationMessage For="@(() => registerModel.ConfirmPassword)" class="text-red-500 text-xs mt-1" />
+                </div>
+
+                <!-- Terms & Conditions -->
+                <div class="flex items-start">
+                    <input type="checkbox" class="mt-1 rounded border-gray-300 text-cyan-600 focus:ring-cyan-500">
+                    <label class="ml-2 text-sm text-gray-600">
+                        I agree to the <a href="#" class="text-cyan-600 hover:text-cyan-800">Terms and Conditions</a> and
+                        <a href="#" class="text-cyan-600 hover:text-cyan-800">Privacy Policy</a>
+                    </label>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" disabled="@isLoading"
+                        class="w-full py-3 px-4 bg-gradient-to-r from-cyan-600 to-purple-600 text-white font-semibold rounded-lg
+                               hover:from-cyan-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2
+                               transform transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed">
+                    @if (isLoading)
+                    {
+                        <span class="flex items-center justify-center">
+                            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Creating account...
+                        </span>
+                    }
+                    else
+                    {
+                        <span>Create Account</span>
+                    }
+                </button>
+
+                <!-- Sign In Link -->
+                <div class="text-center mt-6">
+                    <p class="text-sm text-gray-600">
+                        Already have an account?
+                        <a href="/login" class="font-medium text-cyan-600 hover:text-cyan-800 transition-colors">
+                            Sign in instead
+                        </a>
+                    </p>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+<style>
+    @@keyframes gradient {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    .animate-gradient {
+        background-size: 200% 200%;
+        animation: gradient 15s ease infinite;
+    }
+
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-fadeInUp {
+        animation: fadeInUp 0.6s ease-out;
+    }
+
+    @@keyframes pulse-slow {
+        0%, 100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.8;
+        }
+    }
+
+    .animate-pulse-slow {
+        animation: pulse-slow 3s ease-in-out infinite;
+    }
+
+    @@keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        75% { transform: translateX(5px); }
+    }
+
+    .animate-shake {
+        animation: shake 0.5s ease-in-out;
+    }
+
+    .shape {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.3;
+        animation: float 20s ease-in-out infinite;
+    }
+
+    .shape-1 {
+        width: 300px;
+        height: 300px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        top: -150px;
+        right: -150px;
+        animation-delay: 0s;
+    }
+
+    .shape-2 {
+        width: 400px;
+        height: 400px;
+        background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        bottom: -200px;
+        left: -200px;
+        animation-delay: 5s;
+    }
+
+    .shape-3 {
+        width: 250px;
+        height: 250px;
+        background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+        top: 40%;
+        right: -125px;
+        animation-delay: 10s;
+    }
+
+    .shape-4 {
+        width: 350px;
+        height: 350px;
+        background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        bottom: 40%;
+        left: -175px;
+        animation-delay: 15s;
+    }
+
+    @@keyframes float {
+        0%, 100% {
+            transform: translate(0, 0) rotate(0deg);
+        }
+        33% {
+            transform: translate(30px, -30px) rotate(120deg);
+        }
+        66% {
+            transform: translate(-20px, 20px) rotate(240deg);
+        }
+    }
+</style>
+
+@code {
+    private RegisterModel registerModel = new RegisterModel();
+    private bool isLoading = false;
+    private string errorMessage = string.Empty;
+
+    private async Task HandleRegister()
+    {
+        isLoading = true;
+        errorMessage = string.Empty;
+
+        try
+        {
+            Logger.LogInformation("Starting registration for email: {Email}", registerModel.Email);
+            Logger.LogInformation("User details - FirstName: {FirstName}, LastName: {LastName}",
+                registerModel.FirstName, registerModel.LastName);
+
+            var (success, error) = await AuthService.RegisterAsync(registerModel);
+
+            Logger.LogInformation("Registration result - Success: {Success}, Error: {Error}", success, error);
+
+            if (success)
+            {
+                Logger.LogInformation("Registration successful, navigating to home page");
+                Navigation.NavigateTo("/documents");
+            }
+            else
+            {
+                errorMessage = !string.IsNullOrEmpty(error) ? error : "Registration failed. Please try again.";
+                Logger.LogWarning("Registration failed with error: {ErrorMessage}", errorMessage);
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Exception occurred during registration");
+            errorMessage = $"An error occurred: {ex.Message}";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+}

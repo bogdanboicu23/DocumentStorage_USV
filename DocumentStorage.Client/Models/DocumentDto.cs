@@ -7,11 +7,17 @@ namespace DocumentStorage.Client.Models
         public Guid Id { get; set; }
         public Guid AccountId { get; set; }
         public string FileName { get; set; } = string.Empty;
-        public string? FileType { get; set; }
-        public long? FileSize { get; set; }
+        public string? ContentType { get; set; }
+        public long SizeBytes { get; set; }
         public string? FileUrl { get; set; }
         public DateTime CreatedAt { get; set; }
-        public string? DisplaySize => FileSize.HasValue ? FormatFileSize(FileSize.Value) : "Unknown";
+        public bool IsDeleted { get; set; }
+        public string? AccountName { get; set; }
+
+        // Computed properties for backwards compatibility
+        public string? FileType => ContentType;
+        public long? FileSize => SizeBytes;
+        public string? DisplaySize => SizeBytes > 0 ? FormatFileSize(SizeBytes) : "Unknown";
 
         private string FormatFileSize(long bytes)
         {

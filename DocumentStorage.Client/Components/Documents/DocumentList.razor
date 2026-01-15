@@ -42,7 +42,7 @@
                                             @doc.FileName
                                         </p>
                                         <p class="text-xs text-gray-500">
-                                            @doc.FileType?.ToUpper() • @doc.DisplaySize
+                                            @doc.DisplaySize
                                         </p>
                                     </div>
                                 </div>
@@ -118,18 +118,43 @@
     {
         try
         {
+            Console.WriteLine($"Starting download for document: {document.FileName} (ID: {document.Id})");
             var fileBytes = await DocumentService.DownloadDocumentAsync(document.Id);
-            if (fileBytes != null)
-            {
-                var fileName = document.FileName;
-                var contentType = GetContentType(document.FileType);
 
-                await JSRuntime.InvokeVoidAsync("downloadFile", fileName, contentType, fileBytes);
+            if (fileBytes != null && fileBytes.Length > 0)
+            {
+                Console.WriteLine($"Received {fileBytes.Length} bytes for document {document.FileName}");
+                var fileName = document.FileName;
+                var contentType = document.ContentType ?? GetContentType(document.FileType);
+                var base64 = Convert.ToBase64String(fileBytes);
+
+                // Escape filename for JavaScript
+                var escapedFileName = fileName.Replace("\\", "\\\\").Replace("'", "\\'").Replace("\"", "\\\"");
+
+                // Create a data URL and trigger download
+                var script = "(() => {" +
+                    "const link = document.createElement('a');" +
+                    $"link.href = 'data:{contentType};base64,{base64}';" +
+                    $"link.download = '{escapedFileName}';" +
+                    "link.style.display = 'none';" +
+                    "document.body.appendChild(link);" +
+                    "link.click();" +
+                    "document.body.removeChild(link);" +
+                    $"console.log('Download triggered for file: {escapedFileName}');" +
+                    "})();";
+
+                await JSRuntime.InvokeVoidAsync("eval", script);
+                Console.WriteLine($"Download triggered for {document.FileName}");
+            }
+            else
+            {
+                Console.WriteLine($"No data received for document {document.FileName}. The file may not exist on the server.");
             }
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error downloading document: {ex.Message}");
+            Console.WriteLine($"Error downloading document {document.FileName}: {ex.Message}");
+            Console.WriteLine($"Stack trace: {ex.StackTrace}");
         }
     }
 

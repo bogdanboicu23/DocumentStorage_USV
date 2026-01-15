@@ -1,6 +1,8 @@
 @using DocumentStorage.Client.Models
 @using DocumentStorage.Client.Services
 @using Microsoft.AspNetCore.Components.Forms
+@using DocumentStorage.Shared.DTOs.Usage
+@using Microsoft.Extensions.Logging
 
 <div class="w-full">
     <div @ondragenter="HandleDragEnter"
@@ -23,7 +25,7 @@
                 <p class="mb-2 text-sm text-gray-500">
                     <span class="font-semibold">Click to upload</span> or drag and drop
                 </p>
-                <p class="text-xs text-gray-400">PDF, DOC, DOCX, XLS, XLSX, PNG, JPG up to 10MB</p>
+                <p class="text-xs text-gray-400">PDF, DOC, DOCX, XLS, XLSX, PNG, JPG</p>
             </div>
         </label>
     </div>
@@ -49,15 +51,29 @@
     }
 </div>
 
+<!-- Paywall Modal -->
+<DocumentStorage.Client.Components.PaywallModal @bind-IsVisible="ShowPaywall"
+                                                Title="Storage Limit Reached"
+                                                Message="@PaywallMessage"
+                                                CurrentUsage="CurrentUsage"
+                                                OnPlanSelected="HandlePlanUpgraded" />
+
 @code {
     [Parameter] public EventCallback<DocumentDto> OnFileUploaded { get; set; }
     [Inject] private DocumentService DocumentService { get; set; } = default!;
+    [Inject] private ILogger<FileUpload> Logger { get; set; } = default!;
 
     private bool IsDragging = false;
     private bool IsUploading = false;
     private int UploadProgress = 0;
     private string Message = string.Empty;
     private bool IsSuccess = false;
+
+    // Paywall related
+    private bool ShowPaywall = false;
+    private string? PaywallMessage;
+    private UsageDto? CurrentUsage;
+    private IBrowserFile? PendingFile; // Store the file that failed due to limits
 
     private string AcceptedFileTypes = ".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg";
 
@@ -90,13 +106,15 @@
         if (file == null)
             return;
 
-        if (file.Size > 10 * 1024 * 1024) // 10MB
-        {
-            Message = "File size exceeds 10MB limit.";
-            IsSuccess = false;
-            return;
-        }
+        // if (file.Size > 10 * 1024 * 1024) // 10MB
+        // {
+        //     Logger.LogWarning($"File {file.Name} exceeds 10MB limit. Size: {file.Size} bytes");
+        //     Message = "File size exceeds 10MB limit.";
+        //     IsSuccess = false;
+        //     return;
+        // }
 
+        Logger.LogInformation($"File selected for upload: {file.Name}, Size: {file.Size} bytes");
         await UploadFile(file);
     }
 
@@ -105,6 +123,8 @@
         IsUploading = true;
         UploadProgress = 0;
         Message = string.Empty;
+
+        Logger.LogInformation($"Starting upload for file: {file.Name}");
 
         try
         {
@@ -118,7 +138,8 @@
 
             if (result.Success)
             {
-                Message = result.Message ?? "File uploaded successfully!";
+                Logger.LogInformation($"File {file.Name} uploaded successfully. Document ID: {result.Document?.Id}");
+                Message = result.Message ?? $"✅ {file.Name} uploaded successfully!";
                 IsSuccess = true;
 
                 if (result.Document != null)
@@ -135,12 +156,27 @@
             }
             else
             {
+                // Check if it's a limit exceeded error
+                if (result.IsLimitExceeded)
+                {
+                    Logger.LogWarning($"Upload rejected for {file.Name}: Storage/document limit exceeded");
+                    PendingFile = file; // Store the file for retry after upgrade
+                    PaywallMessage = result.Message;
+                    CurrentUsage = result.CurrentUsage;
+                    ShowPaywall = true;
+                }
+                else
+                {
+                    Logger.LogWarning($"Upload failed for {file.Name}: {result.Message}");
+                }
+
                 Message = result.Message ?? "Upload failed. Please try again.";
                 IsSuccess = false;
             }
         }
         catch (Exception ex)
         {
+            Logger.LogError(ex, $"Error uploading file {file.Name}");
             IsUploading = false;
             Message = $"Error: {ex.Message}";
             IsSuccess = false;
@@ -173,5 +209,44 @@
         return IsSuccess
             ? "bg-green-100 border border-green-400 text-green-700"
             : "bg-red-100 border border-red-400 text-red-700";
+    }
+
+    private async Task HandlePlanUpgraded(Guid planId)
+    {
+        Logger.LogInformation($"Plan upgraded to {planId}. Checking for pending file upload");
+
+        // Refresh the page or update usage limits after plan upgrade
+        ShowPaywall = false;
+        Message = "✨ Plan upgraded successfully! ";
+
+        // If we have a pending file that failed due to limits, retry the upload
+        if (PendingFile != null)
+        {
+            var fileName = PendingFile.Name;
+            Logger.LogInformation($"Retrying upload for pending file: {fileName}");
+            Message += $"Retrying upload of {fileName}...";
+            IsSuccess = true;
+            StateHasChanged();
+
+            await Task.Delay(1000); // Small delay to show the success message
+            var fileToRetry = PendingFile;
+            PendingFile = null; // Clear the pending file
+            await UploadFile(fileToRetry); // Retry the upload
+        }
+        else
+        {
+            Message += "You can now upload files with your new limits.";
+            IsSuccess = true;
+            StateHasChanged();
+
+            Logger.LogInformation("No pending file to retry after plan upgrade");
+
+            // Clear message after 5 seconds if no retry
+            _ = Task.Delay(5000).ContinueWith(_ =>
+            {
+                Message = string.Empty;
+                InvokeAsync(StateHasChanged);
+            });
+        }
     }
 }
