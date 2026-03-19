@@ -108,6 +108,16 @@ builder.Services.AddScoped<IDocumentService, DocumentService>();
 
 var app = builder.Build();
 
+// Apply pending EF migrations on startup
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<DocumentStorageDbContext>();
+    dbContext.Database.Migrate();
+
+    var codeFirstContext = scope.ServiceProvider.GetRequiredService<DocumentStorageDbContextCodeFirst>();
+    codeFirstContext.Database.Migrate();
+}
+
 // Configure the HTTP request pipeline.
 app.UseSwagger();
 app.UseSwaggerUI();
