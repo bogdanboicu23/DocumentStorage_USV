@@ -32,7 +32,6 @@ spec:
   selector:
     app: client
   ports:
-    - port: 8080
+    - port: 80
       targetPort: 8080
-      nodePort: 30080
-  type: NodePort
+  type: LoadBalancer
