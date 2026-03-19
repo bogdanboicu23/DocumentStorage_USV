@@ -58,7 +58,13 @@ jobs:
           location: ${{ env.GKE_ZONE }}
 
       - name: Apply Kubernetes manifests
-        run: kubectl apply -f k8s/
+        run: |
+          kubectl apply -f k8s/namespace.yaml
+          kubectl apply -f k8s/secrets.yaml
+          kubectl apply -f k8s/configmap.yaml
+          kubectl apply -f k8s/sqlserver.yaml
+          kubectl apply -f k8s/api.yaml
+          kubectl apply -f k8s/client.yaml
 
       - name: Update images and wait for rollout
         run: |
