@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: documentstorage-config
+  namespace: documentstorage
+data: 
+   ConnectionStrings__Default: "Server=sqlserver-svc;Database=DocumentStorageDB;User Id=sa;Password=reallyStrongPassword123!;TrustServerCertificate=True;"
+   ConnectionStrings__DefaultConnection: "Server=sqlserver-svc;Database=DocumentStorageDB_CodeFirst;User Id=sa;Password=reallyStrongPassword123!;TrustServerCertificate=True;"
+   ApiSettings__BaseUrl: "http://api-svc:8080"
+   ASPNETCORE_ENVIRONMENT: "Development"

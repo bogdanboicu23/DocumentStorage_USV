@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client
+  namespace: documentstorage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: client
+  template:
+    metadata:
+      labels:
+        app: client
+    spec:
+      containers:
+        - name: client
+          image: europe-north2-docker.pkg.dev/project-c257fdcb-0ada-47dd-add/documentstorage/client:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: documentstorage-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-svc
+  namespace: documentstorage
+spec:
+  selector:
+    app: client
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30080
+  type: NodePort

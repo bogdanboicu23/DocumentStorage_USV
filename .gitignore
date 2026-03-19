@@ -1,5 +1,26 @@
+# Build output
 bin/
 obj/
 /packages/
-riderModule.iml
 /_ReSharper.Caches/
+
+# IDE
+.idea/
+.vs/
+*.suo
+*.user
+*.DotSettings.user
+riderModule.iml
+
+# Node
+node_modules/
+
+# Uploads
+**/uploads/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets (optional - remove if you want k8s secrets tracked)
+# k8s/secrets.yaml

@@ -1,0 +1,12 @@
+**/.vs
+**/.vscode
+**/.idea
+**/bin
+**/obj
+**/node_modules
+**/.git
+**/.gitignore
+**/docker-compose*.yml
+**/*.md
+**/*.docx
+**/uploads/*

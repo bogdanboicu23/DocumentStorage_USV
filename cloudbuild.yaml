@@ -1,0 +1,83 @@
+steps:
+  # Step 1: Build API image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/documentstorage/api:$COMMIT_SHA'
+      - '-t'
+      - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/documentstorage/api:latest'
+      - '-f'
+      - 'src/DocumentStorage.API/Dockerfile'
+      - 'src'
+    id: 'build-api'
+
+  # Step 2: Build Client image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/documentstorage/client:$COMMIT_SHA'
+      - '-t'
+      - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/documentstorage/client:latest'
+      - '-f'
+      - 'src/DocumentStorage.Client/Dockerfile'
+      - 'src'
+    id: 'build-client'
+
+  # Step 3: Push API image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - '--all-tags'
+      - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/documentstorage/api'
+    id: 'push-api'
+    waitFor: ['build-api']
+
+  # Step 4: Push Client image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - '--all-tags'
+      - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/documentstorage/client'
+    id: 'push-client'
+    waitFor: ['build-client']
+
+  # Step 5: Deploy API to GKE
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args:
+      - 'set'
+      - 'image'
+      - 'deployment/api'
+      - 'api=${_REGION}-docker.pkg.dev/${_PROJECT_ID}/documentstorage/api:$COMMIT_SHA'
+      - '-n'
+      - 'documentstorage'
+    env:
+      - 'CLOUDSDK_COMPUTE_ZONE=${_ZONE}'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLUSTER}'
+    id: 'deploy-api'
+    waitFor: ['push-api']
+
+  # Step 6: Deploy Client to GKE
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args:
+      - 'set'
+      - 'image'
+      - 'deployment/client'
+      - 'client=${_REGION}-docker.pkg.dev/${_PROJECT_ID}/documentstorage/client:$COMMIT_SHA'
+      - '-n'
+      - 'documentstorage'
+    env:
+      - 'CLOUDSDK_COMPUTE_ZONE=${_ZONE}'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLUSTER}'
+    id: 'deploy-client'
+    waitFor: ['push-client', 'deploy-api']
+
+substitutions:
+  _PROJECT_ID: 'project-c257fdcb-0ada-47dd-add'
+  _REGION: 'europe-north2'
+  _ZONE: 'europe-north2-a'
+  _CLUSTER: 'document-storage'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
