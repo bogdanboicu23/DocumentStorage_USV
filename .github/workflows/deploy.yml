@@ -57,7 +57,10 @@ jobs:
           cluster_name: ${{ env.GKE_CLUSTER }}
           location: ${{ env.GKE_ZONE }}
 
-      - name: Deploy to GKE
+      - name: Apply Kubernetes manifests
+        run: kubectl apply -f k8s/
+
+      - name: Update images and wait for rollout
         run: |
           kubectl set image deployment/api \
             api=$REGISTRY/$GCP_PROJECT_ID/$REPOSITORY/api:${{ github.sha }} \
