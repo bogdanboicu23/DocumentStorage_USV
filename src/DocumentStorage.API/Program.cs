@@ -108,14 +108,28 @@ builder.Services.AddScoped<IDocumentService, DocumentService>();
 
 var app = builder.Build();
 
-// Apply pending EF migrations on startup
-using (var scope = app.Services.CreateScope())
+// Apply pending EF migrations on startup (retry until SQL Server is ready)
+var retryCount = 0;
+const int maxRetries = 10;
+while (retryCount < maxRetries)
 {
-    var dbContext = scope.ServiceProvider.GetRequiredService<DocumentStorageDbContext>();
-    dbContext.Database.Migrate();
+    try
+    {
+        using var scope = app.Services.CreateScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<DocumentStorageDbContext>();
+        dbContext.Database.Migrate();
 
-    var codeFirstContext = scope.ServiceProvider.GetRequiredService<DocumentStorageDbContextCodeFirst>();
-    codeFirstContext.Database.Migrate();
+        var codeFirstContext = scope.ServiceProvider.GetRequiredService<DocumentStorageDbContextCodeFirst>();
+        codeFirstContext.Database.Migrate();
+        break;
+    }
+    catch (Exception ex)
+    {
+        retryCount++;
+        Console.WriteLine($"Database migration attempt {retryCount}/{maxRetries} failed: {ex.Message}");
+        if (retryCount >= maxRetries) throw;
+        Thread.Sleep(5000);
+    }
 }
 
 // Configure the HTTP request pipeline.
