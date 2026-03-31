@@ -25,6 +25,10 @@ spec:
       labels:
         app: api
     spec:
+      initContainers:
+        - name: wait-for-sql
+          image: mcr.microsoft.com/dotnet/sdk:8.0
+          command: ['bash', '-c', 'for i in $(seq 1 30); do echo "Waiting for SQL Server (attempt $i)..." && echo > /dev/tcp/sqlserver-svc/1433 && echo "SQL Server is ready!" && exit 0; sleep 2; done; echo "SQL Server not ready after 30 attempts"; exit 1']
       containers:
         - name: api
           image: europe-north2-docker.pkg.dev/project-c257fdcb-0ada-47dd-add/documentstorage/api:latest
@@ -45,6 +49,10 @@ spec:
                 secretKeyRef:
                   name: documentstorage-secret
                   key: JWT_SECRET
+            - name: ConnectionStrings__Default
+              value: "Server=sqlserver-svc,1433;Database=DocumentStorageDB;User Id=sa;Password=reallyStrongPassword123!;TrustServerCertificate=True;Encrypt=false;"
+            - name: ConnectionStrings__DefaultConnection
+              value: "Server=sqlserver-svc,1433;Database=DocumentStorageDB_CodeFirst;User Id=sa;Password=reallyStrongPassword123!;TrustServerCertificate=True;Encrypt=false;"
           volumeMounts:
             - name: uploads
               mountPath: /app/uploads
