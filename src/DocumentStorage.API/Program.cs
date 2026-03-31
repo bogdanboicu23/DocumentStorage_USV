@@ -111,6 +111,28 @@ builder.Services.AddScoped<IDocumentService, DocumentService>();
 
 var app = builder.Build();
 
+// Test raw SQL connectivity before EF migrations
+var connStr = app.Configuration.GetConnectionString("Default");
+Console.WriteLine($"Testing SQL connection to: {connStr}");
+for (int i = 1; i <= 15; i++)
+{
+    try
+    {
+        using var testConn = new Microsoft.Data.SqlClient.SqlConnection(connStr);
+        testConn.Open();
+        Console.WriteLine($"Raw SqlConnection succeeded on attempt {i}! Server version: {testConn.ServerVersion}");
+        testConn.Close();
+        break;
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Raw SqlConnection attempt {i}/15 failed: {ex.Message}");
+        if (ex.InnerException != null)
+            Console.WriteLine($"  Inner: {ex.InnerException.Message}");
+        Thread.Sleep(3000);
+    }
+}
+
 // Apply pending EF migrations on startup (retry until SQL Server is ready)
 var retryCount = 0;
 const int maxRetries = 10;
