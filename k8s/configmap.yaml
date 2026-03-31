@@ -7,4 +7,6 @@ data:
    ConnectionStrings__Default: "Server=sqlserver-svc;Database=DocumentStorageDB;User Id=sa;Password=reallyStrongPassword123!;TrustServerCertificate=True;"
    ConnectionStrings__DefaultConnection: "Server=sqlserver-svc;Database=DocumentStorageDB_CodeFirst;User Id=sa;Password=reallyStrongPassword123!;TrustServerCertificate=True;"
    ApiSettings__BaseUrl: "http://api-svc:8080"
+   JwtSettings__Issuer: "DocumentStorage"
+   JwtSettings__Audience: "DocumentStorageUsers"
    ASPNETCORE_ENVIRONMENT: "Development"

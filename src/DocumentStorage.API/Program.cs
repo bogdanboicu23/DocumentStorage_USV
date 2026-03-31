@@ -80,7 +80,10 @@ builder.Services.AddCors(options =>
                 "http://localhost:5076",
                 "http://localhost:5161",
                 "http://client:8080",
-                "http://api:8080"
+                "http://api:8080",
+                "http://client-svc",
+                "http://client-svc:80",
+                "http://client-svc:8080"
               )
               .AllowAnyHeader()
               .AllowAnyMethod();
