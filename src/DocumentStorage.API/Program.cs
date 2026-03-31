@@ -90,15 +90,19 @@ builder.Services.AddCors(options =>
     });
 });
 
+var defaultConn = builder.Configuration.GetConnectionString("Default")
+    ?? "Server=sqlserver-svc,1433;Database=DocumentStorageDB;User Id=sa;Password=reallyStrongPassword123!;TrustServerCertificate=True;Encrypt=false;";
+var codeFirstConn = builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? "Server=sqlserver-svc,1433;Database=DocumentStorageDB_CodeFirst;User Id=sa;Password=reallyStrongPassword123!;TrustServerCertificate=True;Encrypt=false;";
+
+Console.WriteLine($"Default conn: {defaultConn}");
+Console.WriteLine($"CodeFirst conn: {codeFirstConn}");
+
 builder.Services.AddDbContext<DocumentStorageDbContext>(options =>
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("Default")
-    ));
+    options.UseSqlServer(defaultConn));
 
 builder.Services.AddDbContext<DocumentStorageDbContextCodeFirst>(options =>
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection")
-    ));
+    options.UseSqlServer(codeFirstConn));
 
 // Register repositories and services
 builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
