@@ -2,6 +2,9 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 8080
 
+# Install OpenSSL libraries needed by SqlClient on Linux
+RUN apt-get update && apt-get install -y --no-install-recommends libgssapi-krb5-2 && rm -rf /var/lib/apt/lists/*
+
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
@@ -15,7 +18,7 @@ RUN dotnet restore DocumentStorage.API/DocumentStorage.API.csproj
 # Copy everything and build
 COPY . .
 WORKDIR /src/DocumentStorage.API
-RUN dotnet publish -c Release -o /app/publish
+RUN dotnet publish -c Release -r linux-x64 --self-contained false -o /app/publish
 
 FROM base AS final
 WORKDIR /app
