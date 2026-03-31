@@ -80,29 +80,22 @@ builder.Services.AddCors(options =>
                 "http://localhost:5076",
                 "http://localhost:5161",
                 "http://client:8080",
-                "http://api:8080",
-                "http://client-svc",
-                "http://client-svc:80",
-                "http://client-svc:8080"
+                "http://api:8080"
               )
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
 });
 
-var defaultConn = builder.Configuration.GetConnectionString("Default")
-    ?? "Server=sqlserver-svc,1433;Database=DocumentStorageDB;User Id=sa;Password=reallyStrongPassword123!;TrustServerCertificate=True;Encrypt=false;";
-var codeFirstConn = builder.Configuration.GetConnectionString("DefaultConnection")
-    ?? "Server=sqlserver-svc,1433;Database=DocumentStorageDB_CodeFirst;User Id=sa;Password=reallyStrongPassword123!;TrustServerCertificate=True;Encrypt=false;";
-
-Console.WriteLine($"Default conn: {defaultConn}");
-Console.WriteLine($"CodeFirst conn: {codeFirstConn}");
-
 builder.Services.AddDbContext<DocumentStorageDbContext>(options =>
-    options.UseSqlServer(defaultConn));
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("Default")
+    ));
 
 builder.Services.AddDbContext<DocumentStorageDbContextCodeFirst>(options =>
-    options.UseSqlServer(codeFirstConn));
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection")
+    ));
 
 // Register repositories and services
 builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
