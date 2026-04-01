@@ -63,6 +63,7 @@ jobs:
           kubectl apply -f k8s/secrets.yaml
           kubectl apply -f k8s/configmap.yaml
           kubectl apply -f k8s/sqlserver.yaml
+          kubectl rollout status deployment/sqlserver -n documentstorage --timeout=120s
           kubectl apply -f k8s/api.yaml
           kubectl apply -f k8s/client.yaml
 
@@ -74,5 +75,5 @@ jobs:
           kubectl set image deployment/client \
             client=$REGISTRY/$GCP_PROJECT_ID/$REPOSITORY/client:${{ github.sha }} \
             -n documentstorage
-          kubectl rollout status deployment/api -n documentstorage --timeout=120s
-          kubectl rollout status deployment/client -n documentstorage --timeout=120s
+          kubectl rollout status deployment/api -n documentstorage --timeout=180s
+          kubectl rollout status deployment/client -n documentstorage --timeout=180s

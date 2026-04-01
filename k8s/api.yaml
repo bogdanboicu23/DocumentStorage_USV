@@ -40,7 +40,7 @@ spec:
                 secretKeyRef:
                   name: documentstorage-secret
                   key: SA_PASSWORD
-            - name: Jwt__Key
+            - name: JwtSettings__SecretKey
               valueFrom:
                 secretKeyRef:
                   name: documentstorage-secret
