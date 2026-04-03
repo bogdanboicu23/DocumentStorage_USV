@@ -35,11 +35,11 @@ spec:
             - configMapRef:
                 name: documentstorage-config
           env:
-            - name: SA_PASSWORD
+            - name: MSSQL_SA_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: documentstorage-secret
-                  key: SA_PASSWORD
+                  key: MSSQL_SA_PASSWORD
             - name: JwtSettings__SecretKey
               valueFrom:
                 secretKeyRef:
