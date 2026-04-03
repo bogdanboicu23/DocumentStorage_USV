@@ -93,7 +93,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddDbContext<DocumentStorageDbContext>(options =>
     options.UseSqlServer(
-        builder.Configuration.GetConnectionString("Default")
+        builder.Configuration.GetConnectionString("DefaultConnection")
     ));
 
 builder.Services.AddDbContext<DocumentStorageDbContextCodeFirst>(options =>
