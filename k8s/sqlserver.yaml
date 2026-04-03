@@ -37,11 +37,11 @@ spec:
               value: "Y"
             - name: MSSQL_PID
               value: "Developer"
-            - name: SA_PASSWORD
+            - name: MSSQL_SA_PASSWORD
               valueFrom:
                 secretKeyRef:
                     name: documentstorage-secret
-                    key: SA_PASSWORD
+                    key: MSSQL_SA_PASSWORD
           volumeMounts:
               - name: sqlserver-data
                 mountPath: /var/opt/mssql
