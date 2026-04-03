@@ -26,6 +26,8 @@ metadata:
   namespace: documentstorage
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: sqlserver
@@ -36,39 +38,40 @@ spec:
     spec:
       securityContext:
         fsGroup: 10001
+      # --- THIS IS THE FIX ---
+      initContainers:
+        - name: init-permissions
+          image: busybox:1.28
+          command: ["sh", "-c", "chown -R 10001:0 /var/opt/mssql && chmod -R 770 /var/opt/mssql"]
+          volumeMounts:
+            - name: sqlserver-data
+              mountPath: /var/opt/mssql
+      # ------------------------
       containers:
         - name: sqlserver
           image: mcr.microsoft.com/mssql/server:2022-latest
-          ports:
-            - containerPort: 1433
           env:
             - name: ACCEPT_EULA
               value: "Y"
             - name: MSSQL_PID
               value: "Developer"
-            - name: MSSQL_SA_PASSWORD
+            - name: SA_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: documentstorage-secret
                   key: MSSQL_SA_PASSWORD
+          ports:
+            - containerPort: 1433
+          resources:
+            requests:
+              memory: "2Gi"
           volumeMounts:
             - name: sqlserver-data
               mountPath: /var/opt/mssql
-          readinessProbe:
-            tcpSocket:
-              port: 1433
-            initialDelaySeconds: 30
-            periodSeconds: 10
-          livenessProbe:
-            tcpSocket:
-              port: 1433
-            initialDelaySeconds: 60
-            periodSeconds: 20
       volumes:
         - name: sqlserver-data
           persistentVolumeClaim:
             claimName: sqlserver-data-pvc
-
 ---
 apiVersion: v1
 kind: Service
