@@ -108,10 +108,21 @@ if (string.IsNullOrWhiteSpace(runtimeDefaultCs) || string.IsNullOrWhiteSpace(run
     throw new InvalidOperationException("Connection strings are not configured for Kubernetes runtime.");
 }
 
-var runtimeDefaultBuilder = new SqlConnectionStringBuilder(runtimeDefaultCs);
-var runtimeCodeFirstBuilder = new SqlConnectionStringBuilder(runtimeCodeFirstCs);
-Console.WriteLine($"DB target (Default): {runtimeDefaultBuilder.DataSource} / {runtimeDefaultBuilder.InitialCatalog}");
-Console.WriteLine($"DB target (CodeFirst): {runtimeCodeFirstBuilder.DataSource} / {runtimeCodeFirstBuilder.InitialCatalog}");
+string DescribeDbTarget(string connectionString)
+{
+    try
+    {
+        var builder = new SqlConnectionStringBuilder(connectionString);
+        return $"{builder.DataSource} / {builder.InitialCatalog}";
+    }
+    catch (Exception ex)
+    {
+        return $"unparsed connection string ({ex.GetType().Name})";
+    }
+}
+
+Console.WriteLine($"DB target (Default): {DescribeDbTarget(runtimeDefaultCs)}");
+Console.WriteLine($"DB target (CodeFirst): {DescribeDbTarget(runtimeCodeFirstCs)}");
 
 // Register repositories and services
 builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();

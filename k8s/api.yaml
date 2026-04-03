@@ -56,13 +56,13 @@ spec:
           env:
             - name: ConnectionStrings__Default
               valueFrom:
-                configMapKeyRef:
-                  name: documentstorage-config
+                secretKeyRef:
+                  name: documentstorage-secret
                   key: ConnectionStrings__Default
             - name: ConnectionStrings__DefaultConnection
               valueFrom:
-                configMapKeyRef:
-                  name: documentstorage-config
+                secretKeyRef:
+                  name: documentstorage-secret
                   key: ConnectionStrings__DefaultConnection
             - name: MSSQL_SA_PASSWORD
               valueFrom:
