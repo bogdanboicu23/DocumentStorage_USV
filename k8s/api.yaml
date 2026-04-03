@@ -27,7 +27,7 @@ spec:
     spec:
       initContainers:
         - name: wait-for-sql
-          image: mcr.microsoft.com/mssql-tools18
+          image: mcr.microsoft.com/mssql-tools:latest
           env:
             - name: MSSQL_SA_PASSWORD
               valueFrom:
@@ -38,7 +38,9 @@ spec:
             - /bin/bash
             - -c
             - |
-              until /opt/mssql-tools18/bin/sqlcmd -S tcp:sqlserver-svc.documentstorage.svc.cluster.local,1433 -U sa -P "$MSSQL_SA_PASSWORD" -C -Q "SELECT 1" >/dev/null 2>&1; do
+              SQLCMD_BIN="/opt/mssql-tools18/bin/sqlcmd"
+              if [ ! -x "$SQLCMD_BIN" ]; then SQLCMD_BIN="/opt/mssql-tools/bin/sqlcmd"; fi
+              until "$SQLCMD_BIN" -S tcp:sqlserver-svc.documentstorage.svc.cluster.local,1433 -U sa -P "$MSSQL_SA_PASSWORD" -C -Q "SELECT 1" >/dev/null 2>&1; do
                 echo "Waiting for SQL Server login..."
                 sleep 5
               done
