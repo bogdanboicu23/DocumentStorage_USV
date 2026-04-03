@@ -40,7 +40,7 @@ spec:
             - |
               SQLCMD_BIN="/opt/mssql-tools18/bin/sqlcmd"
               if [ ! -x "$SQLCMD_BIN" ]; then SQLCMD_BIN="/opt/mssql-tools/bin/sqlcmd"; fi
-              until "$SQLCMD_BIN" -S tcp:sqlserver-svc.documentstorage.svc.cluster.local,1433 -U sa -P "$MSSQL_SA_PASSWORD" -C -Q "SELECT 1" >/dev/null 2>&1; do
+              until "$SQLCMD_BIN" -S tcp:sqlserver-svc,1433 -U sa -P "$MSSQL_SA_PASSWORD" -C -Q "SELECT 1" >/dev/null 2>&1; do
                 echo "Waiting for SQL Server login..."
                 sleep 5
               done
