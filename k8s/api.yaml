@@ -25,6 +25,11 @@ spec:
       labels:
         app: api
     spec:
+      initContainers:
+        - name: wait-for-sql
+          image: busybox:1.28
+          # This loop waits until it can successfully "ping" the SQL port
+          command: [ 'sh', '-c', "until nc -zv sqlserver-svc 1433; do echo 'Waiting for SQL Server port...'; sleep 5; done;" ]
       containers:
         - name: api
           image: europe-north2-docker.pkg.dev/project-c257fdcb-0ada-47dd-add/documentstorage/api:latest
