@@ -113,7 +113,7 @@ var app = builder.Build();
 
 // Apply pending EF migrations on startup (retry until SQL Server is ready)
 var retryCount = 0;
-const int maxRetries = 10;
+const int maxRetries = 60;
 while (retryCount < maxRetries)
 {
     try
