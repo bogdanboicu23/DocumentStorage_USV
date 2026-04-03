@@ -38,15 +38,6 @@ spec:
     spec:
       securityContext:
         fsGroup: 10001
-      # --- THIS IS THE FIX ---
-      initContainers:
-        - name: init-permissions
-          image: busybox:1.28
-          command: ["sh", "-c", "chown -R 10001:0 /var/opt/mssql && chmod -R 770 /var/opt/mssql"]
-          volumeMounts:
-            - name: sqlserver-data
-              mountPath: /var/opt/mssql
-      # ------------------------
       containers:
         - name: sqlserver
           image: mcr.microsoft.com/mssql/server:2022-latest
@@ -62,6 +53,21 @@ spec:
                   key: MSSQL_SA_PASSWORD
           ports:
             - containerPort: 1433
+          startupProbe:
+            tcpSocket:
+              port: 1433
+            periodSeconds: 10
+            failureThreshold: 30
+          readinessProbe:
+            tcpSocket:
+              port: 1433
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            tcpSocket:
+              port: 1433
+            periodSeconds: 20
+            failureThreshold: 3
           resources:
             requests:
               memory: "1500Mi"
