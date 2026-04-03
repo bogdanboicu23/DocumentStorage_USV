@@ -6,6 +6,7 @@ using DocumentStorage.BusinessLayer.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Data.SqlClient;
 using System.Text;
 using Microsoft.OpenApi.Models;
 
@@ -99,6 +100,18 @@ builder.Services.AddDbContext<DocumentStorageDbContextCodeFirst>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")
     ));
+
+var runtimeDefaultCs = builder.Configuration.GetConnectionString("Default");
+var runtimeCodeFirstCs = builder.Configuration.GetConnectionString("DefaultConnection");
+if (string.IsNullOrWhiteSpace(runtimeDefaultCs) || string.IsNullOrWhiteSpace(runtimeCodeFirstCs))
+{
+    throw new InvalidOperationException("Connection strings are not configured for Kubernetes runtime.");
+}
+
+var runtimeDefaultBuilder = new SqlConnectionStringBuilder(runtimeDefaultCs);
+var runtimeCodeFirstBuilder = new SqlConnectionStringBuilder(runtimeCodeFirstCs);
+Console.WriteLine($"DB target (Default): {runtimeDefaultBuilder.DataSource} / {runtimeDefaultBuilder.InitialCatalog}");
+Console.WriteLine($"DB target (CodeFirst): {runtimeCodeFirstBuilder.DataSource} / {runtimeCodeFirstBuilder.InitialCatalog}");
 
 // Register repositories and services
 builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
