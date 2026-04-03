@@ -142,7 +142,7 @@ while (retryCount < maxRetries)
     catch (Exception ex)
     {
         retryCount++;
-        Console.WriteLine($"Database migration attempt {retryCount}/{maxRetries} failed: {ex.Message}");
+        Console.WriteLine($"Database migration attempt {retryCount}/{maxRetries} failed: {ex}");
         if (retryCount >= maxRetries) throw;
         Thread.Sleep(5000);
     }

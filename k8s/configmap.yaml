@@ -4,8 +4,8 @@ metadata:
   name: documentstorage-config
   namespace: documentstorage
 data: 
-   ConnectionStrings__Default: "Server=sqlserver-svc.documentstorage.svc.cluster.local,1433;Database=DocumentStorageDB;User Id=sa;Password=reallyStrongPassword123!;TrustServerCertificate=True;Encrypt=false;Connect Timeout=60;"
-   ConnectionStrings__DefaultConnection: "Server=sqlserver-svc.documentstorage.svc.cluster.local,1433;Database=DocumentStorageDB_CodeFirst;User Id=sa;Password=reallyStrongPassword123!;TrustServerCertificate=True;Encrypt=false;Connect Timeout=60;"
+   ConnectionStrings__Default: "Server=tcp:sqlserver-svc.documentstorage.svc.cluster.local,1433;Database=DocumentStorageDB;User Id=sa;Password=reallyStrongPassword123!;TrustServerCertificate=True;Encrypt=True;Connect Timeout=60;"
+   ConnectionStrings__DefaultConnection: "Server=tcp:sqlserver-svc.documentstorage.svc.cluster.local,1433;Database=DocumentStorageDB_CodeFirst;User Id=sa;Password=reallyStrongPassword123!;TrustServerCertificate=True;Encrypt=True;Connect Timeout=60;"
    ApiSettings__BaseUrl: "http://api-svc:8080"
    JwtSettings__Issuer: "DocumentStorage"
    JwtSettings__Audience: "DocumentStorageUsers"
