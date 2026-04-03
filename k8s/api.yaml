@@ -29,16 +29,6 @@ spec:
         - name: wait-for-sql
           image: mcr.microsoft.com/mssql-tools:latest
           env:
-            - name: ConnectionStrings__Default
-              valueFrom:
-                configMapKeyRef:
-                  name: documentstorage-config
-                  key: ConnectionStrings__Default
-            - name: ConnectionStrings__DefaultConnection
-              valueFrom:
-                configMapKeyRef:
-                  name: documentstorage-config
-                  key: ConnectionStrings__DefaultConnection
             - name: MSSQL_SA_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -64,6 +54,16 @@ spec:
             - configMapRef:
                 name: documentstorage-config
           env:
+            - name: ConnectionStrings__Default
+              valueFrom:
+                configMapKeyRef:
+                  name: documentstorage-config
+                  key: ConnectionStrings__Default
+            - name: ConnectionStrings__DefaultConnection
+              valueFrom:
+                configMapKeyRef:
+                  name: documentstorage-config
+                  key: ConnectionStrings__DefaultConnection
             - name: MSSQL_SA_PASSWORD
               valueFrom:
                 secretKeyRef:
