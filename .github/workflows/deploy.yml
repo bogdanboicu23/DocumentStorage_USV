@@ -62,8 +62,8 @@ jobs:
           kubectl apply -f k8s/namespace.yaml
           kubectl apply -f k8s/secrets.yaml
           kubectl apply -f k8s/configmap.yaml
-          kubectl scale deployment api -n documentstorage --replicas=0 --ignore-not-found=true
-          kubectl scale deployment client -n documentstorage --replicas=0 --ignore-not-found=true
+          kubectl get deployment api -n documentstorage >/dev/null 2>&1 && kubectl scale deployment api -n documentstorage --replicas=0 || true
+          kubectl get deployment client -n documentstorage >/dev/null 2>&1 && kubectl scale deployment client -n documentstorage --replicas=0 || true
           kubectl apply -f k8s/sqlserver.yaml
           kubectl rollout status deployment/sqlserver -n documentstorage --timeout=300s
           kubectl apply -f k8s/api.yaml
