@@ -27,9 +27,21 @@ spec:
     spec:
       initContainers:
         - name: wait-for-sql
-          image: busybox:1.28
-          # This loop waits until it can successfully "ping" the SQL port
-          command: [ 'sh', '-c', "until nc -zv sqlserver-svc 1433; do echo 'Waiting for SQL Server port...'; sleep 5; done;" ]
+          image: mcr.microsoft.com/mssql-tools18
+          env:
+            - name: MSSQL_SA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: documentstorage-secret
+                  key: MSSQL_SA_PASSWORD
+          command:
+            - /bin/bash
+            - -c
+            - |
+              until /opt/mssql-tools18/bin/sqlcmd -S tcp:sqlserver-svc.documentstorage.svc.cluster.local,1433 -U sa -P "$MSSQL_SA_PASSWORD" -C -Q "SELECT 1" >/dev/null 2>&1; do
+                echo "Waiting for SQL Server login..."
+                sleep 5
+              done
       containers:
         - name: api
           image: europe-north2-docker.pkg.dev/project-c257fdcb-0ada-47dd-add/documentstorage/api:latest
